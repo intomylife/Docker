@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 继承父 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.3.RELEASE</version>
+    </parent>
+
+    <!-- 三坐标 -->
+    <groupId>com.zwc</groupId>
+    <artifactId>docker-springboot</artifactId>
+    <version>1.0</version>
+
+    <!-- 工程名称和描述 -->
+    <name>docker-springboot</name>
+    <description>使用 Docker 部署 SpringBoot 项目</description>
+
+    <!-- 打包方式 -->
+    <packaging>jar</packaging>
+
+    <!-- 在properties下声明相应的版本信息，然后在dependency下引用的时候用${spring-version}就可以引入该版本jar包了 -->
+    <properties>
+        <!-- jdk -->
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <!-- springboot 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- springboot 测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 插件依赖 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Docker 插件 -->
+            <plugin>
+                <!-- 三坐标 -->
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <!-- 配置信息 -->
+                <configuration>
+                    <!-- 镜像名称 -->
+                    <imageName>${project.groupId}/${project.artifactId}:${project.version}</imageName>
+                    <!-- Dockerfile 文件的位置 -->
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!-- 文件资源 -->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
