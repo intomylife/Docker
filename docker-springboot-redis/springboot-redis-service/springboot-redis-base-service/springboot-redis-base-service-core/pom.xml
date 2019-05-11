@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 继承父 -->
+    <parent>
+        <groupId>com.zwc</groupId>
+        <artifactId>springboot-redis-base-service</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <!-- 三坐标 -->
+    <groupId>com.zwc</groupId>
+    <artifactId>springboot-redis-base-service-core</artifactId>
+    <version>1.0</version>
+
+    <!-- 工程名称描述 -->
+    <name>springboot-redis-base-service-core</name>
+    <description>基础服务工程 - 核心</description>
+
+    <!-- 打包方式 -->
+    <packaging>jar</packaging>
+
+    <!-- 在properties下声明相应的版本信息，然后在dependency下引用的时候用${spring-version}就可以引入该版本jar包了 -->
+    <properties>
+        <module.name>${project.artifactId}</module.name>
+    </properties>
+
+    <dependencies>
+        <!-- commons工程 依赖 -->
+        <dependency>
+            <groupId>com.zwc</groupId>
+            <artifactId>springboot-redis-commons</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- api工程 依赖 -->
+        <dependency>
+            <groupId>com.zwc</groupId>
+            <artifactId>springboot-redis-base-service-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <!-- 插件依赖 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Docker 插件 -->
+            <plugin>
+                <!-- 三坐标 -->
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <!-- 配置信息 -->
+                <configuration>
+                    <!-- 镜像名称 -->
+                    <imageName>${docker.image.prefix}/${docker.image.name}:${project.version}</imageName>
+                    <!-- Dockerfile 文件的位置 -->
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!-- 文件资源 -->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <!-- 打包后的名称 -->
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
