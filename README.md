@@ -8,3 +8,6 @@
 
 ### Docker 部署 SpringBoot + Redis 项目
 > 博客地址：[https://blog.csdn.net/qq_41402200/article/details/90111065](https://blog.csdn.net/qq_41402200/article/details/90111065)
+
+### Docker 部署 SpringBoot + MySQL 项目
+> 博客地址：[https://blog.csdn.net/qq_41402200/article/details/90166804](https://blog.csdn.net/qq_41402200/article/details/90166804)
