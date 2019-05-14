@@ -11,3 +11,6 @@
 
 ### Docker 部署 SpringBoot + MySQL 项目
 > 博客地址：[https://blog.csdn.net/qq_41402200/article/details/90166804](https://blog.csdn.net/qq_41402200/article/details/90166804)
+
+### Docker 部署 SpringBoot + Nginx 实现负载均衡
+> 博客地址：[https://blog.csdn.net/qq_41402200/article/details/90201811](https://blog.csdn.net/qq_41402200/article/details/90201811)
