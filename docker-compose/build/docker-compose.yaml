@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+    service_redis:
+        container_name: container_redis
+        image: redis:4.0.14
+        environment:
+            - TZ=Asia/Shanghai
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+            - ./data/redis/:/data/
+            - ./log/redis/:/var/log/redis/
+        command: redis-server /usr/local/etc/redis/redis.conf
+        restart: always
+    
+    service_mysql:
+        container_name: container_mysql
+        image: mysql:5.7
+        environment:
+            TZ: Asia/Shanghai
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_ROOT_HOST: '%'
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+            - ./data/mysql/:/var/lib/mysql/
+            - ./data/init/:/docker-entrypoint-initdb.d/
+            - ./log/mysql/:/var/log/mysql/
+        command: [
+            '--character-set-server=utf8mb4',
+            '--collation-server=utf8mb4_unicode_ci'
+        ]
+        restart: always
+    
+    service_springboot:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            TZ: Asia/Shanghai
+            spring.datasource.host: service_mysql
+            spring.redis.host: service_redis
+        expose:
+            - "8080"
+        depends_on:
+            - service_redis
+            - service_mysql
+        restart: always
+    
+    service_nginx:
+        container_name: container_nginx
+        image: nginx:1.8
+        environment:
+            - TZ=Asia/Shanghai
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./data/nginx/:/usr/share/nginx/html/
+            - ./log/nginx/:/var/log/nginx/
+        depends_on:
+            - service_springboot
+        restart: always
