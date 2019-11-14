@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 继承父 -->
+    <parent>
+        <groupId>com.zwc</groupId>
+        <artifactId>docker-compose-base-service</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <!-- 三坐标 -->
+    <groupId>com.zwc</groupId>
+    <artifactId>docker-compose-service-core</artifactId>
+    <version>1.0</version>
+
+    <!-- 工程名称描述 -->
+    <name>docker-compose-service-core</name>
+    <description>基础服务工程 - 核心</description>
+
+    <!-- 打包方式 -->
+    <packaging>jar</packaging>
+
+    <!-- 在 properties 下声明相应的版本信息，然后在 dependency 下引用的时候用 ${} 就可以引入该版本 jar 包了 -->
+    <properties>
+        <!-- docker 镜像名称 -->
+        <docker.image.name>docker-compose-service</docker.image.name>
+    </properties>
+
+    <!-- 加入依赖 -->
+    <dependencies>
+        <!-- commons 工程依赖 -->
+        <dependency>
+            <groupId>com.zwc</groupId>
+            <artifactId>docker-compose-commons</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- api 工程依赖 -->
+        <dependency>
+            <groupId>com.zwc</groupId>
+            <artifactId>docker-compose-service-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <!-- 插件依赖 -->
+    <build>
+        <!-- 打包插件 -->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Docker 插件 -->
+            <plugin>
+                <!-- 三坐标 -->
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <!-- 绑定插件执行动作 -->
+                <executions>
+                    <!-- mav package = mav package + docker:build + docker:push -->
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- 配置信息 -->
+                <configuration>
+                    <!-- 远程 docker 服务地址 -->
+                    <dockerHost>${docker.host}</dockerHost>
+                    <!-- 指定 docker hub 仓库地址，用户名密码配置在 settings.xml 文件中 -->
+                    <serverId>${settings.docker.id}</serverId>
+                    <registryUrl>${docker.registry.url}</registryUrl>
+                    <!-- 镜像名称 -->
+                    <imageName>${docker.image.prefix}/${docker.image.name}:${project.version}</imageName>
+                    <!-- Dockerfile 文件的位置 -->
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!-- 文件资源 -->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <!-- 打包后的名称 -->
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
