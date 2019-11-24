@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '/api' : {
         // target: 'https://xxx.com',
-        target: 'http://127.0.0.1:8000',
+        target: 'http://127.0.0.1:8080',
         changeOrigin: true,
         pathRewrite: {
             '^/api': ''  // api 开头的接口都使用此代理，如果添加了此行代码，那么意思就是在接口中去掉 api
