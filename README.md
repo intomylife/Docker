@@ -20,3 +20,6 @@
 
 ### docker-compose 部署 SpringBoot + Redis + MySQL + Nginx
 > 博客地址：[https://intomylife.blog.csdn.net/article/details/102585935](https://intomylife.blog.csdn.net/article/details/102585935)[ ⚡ 备用链接](https://blog.csdn.net/qq_41402200/article/details/102585935)
+
+### docker-compose 快速部署前后端分离项目
+> 博客地址：[https://intomylife.blog.csdn.net/article/details/103225344](https://intomylife.blog.csdn.net/article/details/103225344)[ ⚡ 备用链接](https://blog.csdn.net/qq_41402200/article/details/103225344)
