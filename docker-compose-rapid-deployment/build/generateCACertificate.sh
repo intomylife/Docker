@@ -11,7 +11,7 @@ echo "===================== 开始 ====================="
 
 
 ## 创建需要的目录
-mkdir /root/ca/my
+mkdir -p /root/ca/my
 ## 进入到目录
 cd /root/ca/my
 
