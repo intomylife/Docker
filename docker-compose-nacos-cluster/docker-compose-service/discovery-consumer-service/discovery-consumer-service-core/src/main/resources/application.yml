@@ -1,0 +1,22 @@
+# 端口
+server:
+  port: 8080
+
+spring:
+  application:
+    # 应用名称
+    name: service-feign
+  cloud:
+    nacos:
+      discovery:
+        # 注册中心地址
+        server-addr: 127.0.0.1:8848
+        # 用户名
+        username: nacos
+        # 密码
+        password: nacos
+
+# 开启断路器
+feign:
+  hystrix:
+    enabled: true

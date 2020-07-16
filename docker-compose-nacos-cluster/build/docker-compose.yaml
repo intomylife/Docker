@@ -1,0 +1,94 @@
+version: '3'
+
+services:
+
+    mysql:
+        container_name: mysql
+        image: mysql:${MYSQL_VERSION}
+        env_file: 
+            - env/mysql.env
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+            - ./init/mysql/:/docker-entrypoint-initdb.d/
+            - ./data/mysql/:/var/lib/mysql/
+            - ./log/mysql/:/var/log/mysql/
+        command: [
+            '--character-set-server=utf8mb4',
+            '--collation-server=utf8mb4_unicode_ci'
+        ]
+        restart: always
+
+    nacos1:
+        hostname: nacos1
+        container_name: nacos1
+        image: nacos/nacos-server:${NACOS_VERSION}
+        env_file: 
+            - env/nacos.env
+        environment:
+            MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
+            MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "8000:8848"
+        volumes:
+            - ./data/nacos/:/home/nacos/data/
+            - ./log/nacos1/:/home/nacos/logs/
+        depends_on:
+            - mysql
+        restart: always
+
+    nacos2:
+        hostname: nacos2
+        container_name: nacos2
+        image: nacos/nacos-server:${NACOS_VERSION}
+        env_file: 
+            - env/nacos.env
+        environment:
+            MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
+            MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "8001:8848"
+        volumes:
+            - ./data/nacos/:/home/nacos/data/
+            - ./log/nacos2/:/home/nacos/logs/
+        depends_on:
+            - mysql
+        restart: always
+
+    nacos3:
+        hostname: nacos3
+        container_name: nacos3
+        image: nacos/nacos-server:${NACOS_VERSION}
+        env_file: 
+            - env/nacos.env
+        environment: 
+            MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
+            MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "8002:8848"
+        volumes:
+            - ./data/nacos/:/home/nacos/data/
+            - ./log/nacos3/:/home/nacos/logs/
+        depends_on:
+            - mysql
+        restart: always
+
+    nginx:
+        container_name: nginx
+        image: nginx:${NGINX_VERSION}
+        environment:
+            TZ: Asia/Shanghai
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./data/nginx/:/usr/share/nginx/html/
+            - ./log/nginx/:/var/log/nginx/
+        depends_on:
+            - nacos1
+            - nacos2
+            - nacos3
+        restart: always

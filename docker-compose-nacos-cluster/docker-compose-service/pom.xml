@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 继承父 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.6.RELEASE</version>
+    </parent>
+
+    <!-- 三坐标 -->
+    <groupId>com.zwc</groupId>
+    <artifactId>docker-compose-service</artifactId>
+    <version>1.0.0</version>
+
+    <!-- 工程名称描述 -->
+    <name>docker-compose-service</name>
+    <description>聚合服务工程</description>
+
+    <!-- 打包方式 -->
+    <packaging>pom</packaging>
+
+    <!-- 部署到远程私有仓库 -->
+    <distributionManagement>
+        <!-- 正式版本 -->
+        <repository>
+            <id>releases</id>
+            <name>releases</name>
+            <url>http://10.211.55.25:18081/repository/maven-releases/</url>
+        </repository>
+        <!-- 测试版本 -->
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>snapshots</name>
+            <url>http://10.211.55.25:18081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!-- 子模块 -->
+    <modules>
+        <!-- 提供者一号服务工程 -->
+        <module>discovery-provider-first-service</module>
+        <!-- 提供者二号服务工程 -->
+        <module>discovery-provider-second-service</module>
+        <!-- 消费者服务工程 -->
+        <module>discovery-consumer-service</module>
+        <!-- 订单服务工程 -->
+        <module>config-order-service</module>
+        <!-- 用户服务工程 -->
+        <module>config-user-service</module>
+    </modules>
+
+    <!-- 在 properties 下声明相应的版本信息，然后在 dependency 下引用的时候用 ${} 就可以引入该版本 jar 包了 -->
+    <properties>
+        <!-- 编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- jdk -->
+        <java.version>1.8</java.version>
+
+        <!-- SpringBoot -->
+        <platform-bom.version>Cairo-SR3</platform-bom.version>
+        <!-- SpringCloud -->
+        <spring-cloud-dependencies.version>Finchley.SR2</spring-cloud-dependencies.version>
+        <!-- SpringCloudAlibaba -->
+        <spring-cloud-alibaba-dependencies.version>2.0.2.RELEASE</spring-cloud-alibaba-dependencies.version>
+
+        <!-- 上传镜像 -->
+        <!-- 远程仓库用户名 -->
+        <docker.image.prefix>intomylife</docker.image.prefix>
+        <!-- 远程 docker 服务地址 -->
+        <docker.host>https://DockerHost:2375/</docker.host>
+        <!-- 指定 docker hub 仓库地址，用户名密码配置在 settings.xml 文件中 -->
+        <settings.docker.id>docker-hub</settings.docker.id>
+        <docker.registry.url>https://index.docker.io/v1/</docker.registry.url>
+    </properties>
+
+    <!-- 加入依赖 -->
+    <dependencies>
+        <!-- springboot 测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 依赖 jar 包版本管理的管理器 -->
+    <!-- 如果 dependencies 里的 dependency 自己没有声明 version 元素，那么 maven 就此处来找版本声明。 -->
+    <!-- 如果有，就会继承它；如果没有就会报错，告诉你没有版本信息 -->
+    <!-- 优先级：如果 dependencies 里的 dependency 已经声明了版本信息，就不会生效此处的版本信息了 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- SpringBoot -->
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${platform-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloudAlibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
