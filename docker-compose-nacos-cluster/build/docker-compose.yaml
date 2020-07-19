@@ -6,7 +6,7 @@ services:
         container_name: mysql
         image: mysql:${MYSQL_VERSION}
         env_file: 
-            - env/mysql.env
+            - env/mysql/mysql.env
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
@@ -27,7 +27,7 @@ services:
         container_name: nacos1
         image: nacos/nacos-server:${NACOS_VERSION}
         env_file: 
-            - env/nacos.env
+            - env/nacos/nacos.env
         environment:
             MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
             MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -45,7 +45,7 @@ services:
         container_name: nacos2
         image: nacos/nacos-server:${NACOS_VERSION}
         env_file: 
-            - env/nacos.env
+            - env/nacos/nacos.env
         environment:
             MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
             MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -63,7 +63,7 @@ services:
         container_name: nacos3
         image: nacos/nacos-server:${NACOS_VERSION}
         env_file: 
-            - env/nacos.env
+            - env/nacos/nacos.env
         environment: 
             MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
             MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
