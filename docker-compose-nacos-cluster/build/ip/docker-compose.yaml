@@ -34,7 +34,7 @@ services:
             MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
             MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
-            - "8000:8000"
+            - "${NACOS1_APPLICATION_PORT}:${NACOS1_APPLICATION_PORT}"
         volumes:
             - ./data/nacos/:/home/nacos/data/
             - ./log/nacos1/:/home/nacos/logs/
@@ -54,7 +54,7 @@ services:
             MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
             MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
-            - "8001:8001"
+            - "${NACOS2_APPLICATION_PORT}:${NACOS2_APPLICATION_PORT}"
         volumes:
             - ./data/nacos/:/home/nacos/data/
             - ./log/nacos2/:/home/nacos/logs/
@@ -74,7 +74,7 @@ services:
             MYSQL_SERVICE_USER: ${MYSQL_SERVICE_USER}
             MYSQL_SERVICE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
-            - "8002:8002"
+            - "${NACOS3_APPLICATION_PORT}:${NACOS3_APPLICATION_PORT}"
         volumes:
             - ./data/nacos/:/home/nacos/data/
             - ./log/nacos3/:/home/nacos/logs/
