@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+    first:
+        container_name: first
+        image: intomylife/nacos-cluster-first:${FIRST_VERSION}
+        environment:
+            TZ: Asia/Shanghai
+            spring.cloud.nacos.discovery.server-addr: nginx:9000
+            spring.cloud.nacos.discovery.username: ${NACOS_USER}
+            spring.cloud.nacos.discovery.password: ${NACOS_PASSWORD}
+        ports:
+            - "8090:8090"
+        restart: always
+
+    second:
+        container_name: second
+        image: intomylife/nacos-cluster-second:${SECOND_VERSION}
+        environment:
+            TZ: Asia/Shanghai
+            spring.cloud.nacos.discovery.server-addr: nginx:9000
+            spring.cloud.nacos.discovery.username: ${NACOS_USER}
+            spring.cloud.nacos.discovery.password: ${NACOS_PASSWORD}
+        ports:
+            - "8091:8091"
+        restart: always
+
+    consumer:
+        container_name: consumer
+        image: intomylife/nacos-cluster-consumer:${CONSUMER_VERSION}
+        environment:
+            TZ: Asia/Shanghai
+            spring.cloud.nacos.discovery.server-addr: nginx:9000
+            spring.cloud.nacos.discovery.username: ${NACOS_USER}
+            spring.cloud.nacos.discovery.password: ${NACOS_PASSWORD}
+        ports:
+            - "8080:8080"
+        restart: always
