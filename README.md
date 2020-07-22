@@ -54,6 +54,8 @@
 
     * [CentOS7中使用Docker部署MySQL实现主从同步](https://blog.csdn.net/qq_41402200/article/details/95876316)
 
+    * [docker-compose 部署 Nacos 集群](https://blog.csdn.net/qq_41402200/article/details/107442549)
+
 * ...
 
 ## 对于项目结构的一些说明
